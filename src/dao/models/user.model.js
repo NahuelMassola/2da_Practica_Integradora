@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const userCollection = ('users')
 
 const roleType = {
+  PUBLIC: "PUBLIC",
   USER: "USER",
   ADMIN: "ADMIN",
-  PUBLIC: "PUBLIC",
 }
 
 const userSchema = new mongoose.Schema({

@@ -12,10 +12,18 @@ router.post('/login',passport.authenticate(LOGIN_STRATEGY,{session:false}), sess
 router.post('/register', passport.authenticate(REGISTER_STRATEGY,{session:false}) , sessionController.loginRegister)
 
 // Current
-router.get('/current', handlePolicies(["USER"]) , async ( req, res) => {
+
+router.get('/current', handlePolicies(["PUBLIC"]) , async ( req, res) => {
+    return res.json({ message:" jwt en las cookie siendo PUBLIC"})
+})
+
+router.get('/current/user', handlePolicies(["USER" , "ADMIN"]) , async ( req, res) => {
     return res.json({ message:" jwt en las cookie siendo USER"})
 })
 
+router.get('/current/admin', handlePolicies(["ADMIN"]) , async ( req, res) => {
+    return res.json({ message:" jwt en las cookie siendo ADMIN"})
+})
 
 //Github
 router.get('/github', passport.authenticate("github" , {scope: ["user:email"]}), async (req , res ) => {});
