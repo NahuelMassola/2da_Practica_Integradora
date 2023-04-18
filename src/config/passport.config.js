@@ -1,9 +1,11 @@
 const passport = require('passport');
+const passportLocal = require('passport-local');
 const GithubStrategy = require('passport-github2');
 const userModelGithub = require('../dao/models/user.modelGithub');
 const local = require('passport-local');
 const { createHashValue, isValidPassword } = require('../utils/encrypt');
 const userModel = require('../dao/models/user.model');
+const { generateToken } = require('../utils/generateToken');
 
 
 const GITHUB_CLIENT_ID = "290c52ff9d584eb6d62a";
@@ -46,18 +48,30 @@ const initializePassport = () => {
     }))
 
 
-    passport.use('login' , new LocalStrategy({usernameField: 'email'} , async( username ,password,done)=>{
+    passport.use('login' , new passportLocal.Strategy(
+        {
+            usernameField: 'email',
+            passReqToCallback: true
+        }, 
+            async(req, username ,password, done)=>{
         try {
             const user = await userModel.findOne({email: username});
-            if (!user) {
-                return done( null, false)
+            const isValidPasswords = await isValidPassword(password , user.password)
+            if(user && isValidPasswords) {
+                const token = generateToken({ id: user.id , rol: user.rol})
+                if(token){
+                    done(null , {token: token})
+                } else {
+                    done(null , false);
+                }
+            } else {
+                done(null , false)
             }
-            if(isValidPassword(user ,password)) return done(null , false);
-            return done (null , user);
         } catch (error) {
-            return done (error)
+            console.log(error)
         }
     }))
+
 
     passport.use(
         "github",

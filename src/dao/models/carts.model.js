@@ -21,10 +21,7 @@ const cartsSchema = new mongoose.Schema(
             ],
             default:[],
     }
-  } , {
-    versionKey: false,
-    timestamps:true
-})   
+  })   
 
 
 const cartsModel = mongoose.model(cartsColection , cartsSchema);

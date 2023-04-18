@@ -52,6 +52,7 @@ const addProductBd = async (req, res) => {
   }
 }
 
+
 const UpdateProductBd = async (req, res) => {
   
   try {
@@ -73,20 +74,19 @@ const UpdateProductBd = async (req, res) => {
 }
 
 const deleteProductBd = async (req, res) => {
- try {
-   const id = req.params.pid
-   const deleteproduct = await BdProductManager.DeleteProductId(id);
-   return res.json({
+  try {
+    const id = req.params.pid
+    const deleteproduct = await BdProductManager.DeleteProductId(id);
+    return res.json({
     status: "Sucess",
     playload: deleteproduct,
   })
- } catch (error) {
+} catch (error) {
   return res.json({
     status: "erorr",
     playload: "error al eliminar producto",
   }) 
- }
- 
+}
 }
 
 module.exports = {

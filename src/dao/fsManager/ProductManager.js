@@ -35,7 +35,6 @@ class ProductManager {
   };
 
   addProduct = async (objeto) => {
-     
     if (objeto.title || objeto.description || objeto.code || objeto.price || objeto.Status || objeto.stock || objeto.category) {
       const { products } = await readFile(this.path);
       this.Product = products;

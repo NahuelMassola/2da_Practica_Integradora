@@ -16,13 +16,13 @@ const getsendMessage = async(req, res)=>{
       msg: 'Chats',
       chats:getMessage
     });      
-}
-
+  }
 }
 
 const sendMessage = async(req, res)=>{
   const message = req.body
   const saveMessage = await Chats.sendMessage(message)
+
   if (!saveMessage){
     return res.json({
       msg: 'No se puedo enviar Mensaje',
@@ -35,7 +35,6 @@ const sendMessage = async(req, res)=>{
       })  
     }
 }
-
 
 
 const deleteMessage = async (req, res)=>{
@@ -51,8 +50,7 @@ const deleteMessage = async (req, res)=>{
       msg: 'Mensaje Eliminado',
       chats:deleteMessaje
     });      
-}
-}
+}}
 
 
 module.exports ={

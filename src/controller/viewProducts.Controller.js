@@ -1,6 +1,8 @@
 const BdProductManager = require("../dao/mongoManager/BdProductManager");
 
+
 const viewsBd = async (req, res) => {
+    
     const {limit, page, sort, ...query} = req.query;
     const products= await BdProductManager.getProduct(page, limit,sort, query);
 
@@ -9,16 +11,18 @@ const viewsBd = async (req, res) => {
         description:product.description,
         category:product.category,
         price:product.price,
-        stock:product.stock
-    })) 
+        stock:product.stock,
+    }
+    )) 
 
     res.render("viewProduct", {
         products: product,
         totalPage: products.totalPages,
         page:products.page,
         prev: products.hasPrevPage,
-        next: products.hasNextPage
-        }   
+        next: products.hasNextPage,
+        sessions: req.session
+    }   
 )}
 
 

@@ -15,31 +15,27 @@ const connectionSocket = (httpServer)=>{
         const Chats  = await Chat.getMessage();
         socket.emit('init-products', products)
         socket.emit('init-chats' ,Chats)
-        socket.on('addProd' , async prod => await Product.addProduct(prod))
-        socket.on('delProd' , async (id) => await Product.deleteProduct(id))
     });
 }
 
- const emitDeleteProduct = (id)=>{
-     io.emit('delete-product', {id})
- }
+const emitDeleteProduct = (id)=>{
+    io.emit('delete-product', {id})
+}
 
- const emitaddRealtime = (add)=>{
-     io.emit('add-product',{add} )
- }
+const emitaddRealtime = (add)=>{
+    io.emit('add-product',{add} )
+}
 
- const emitMessage = (newMessage)=>{
+const emitMessage = (newMessage)=>{
     console.log(`Nuevo mensaje enviado: ${JSON.stringify(newMessage)}`)
     io.emit('add-message', newMessage )
- } 
+} 
 
- const emitDeleteMj = (message)=>{
+const emitDeleteMj = (message)=>{
     console.log(`Mensaje Eliminado: ${JSON.stringify(message)}`)
     io.emit('delete-message', message)
 }
 
-
-  
 module.exports = {
     connectionSocket,
     emitDeleteProduct,

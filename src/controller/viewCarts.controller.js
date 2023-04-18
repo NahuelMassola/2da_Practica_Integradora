@@ -3,7 +3,7 @@ const BdCartManager = require("../dao/mongoManager/BdCartManager");
 
 const viewsBd = async (req, res) => {
     const {cid} = req.params 
-    const Carts = await BdCartManager.getCartsId(cid);
+    const Carts= await BdCartManager.getCartsId(cid);
     
     let products = []
     Carts.products.map((cart)=>{

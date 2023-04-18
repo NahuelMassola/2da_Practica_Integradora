@@ -11,7 +11,7 @@ const mapProductCart = async (products)=>{
 let productCartList =[]
 let productsNotFound = []
 
-  for(const id of products) {
+    for(const id of products) {
 
     const indexProducts = productCartList.findIndex(({product})=> product === id)
     
@@ -24,16 +24,14 @@ let productsNotFound = []
                 product: id,
                 quantity: 1,
                 price:productBd.price,
-                  
             }) 
         }else{
-             productsNotFound.push(id)
+            productsNotFound.push(id)
         }
     } else{
         productCartList[indexProducts].quantity++
     }
-  }
-   
+}
     return {productCartList, productsNotFound}
 
 }

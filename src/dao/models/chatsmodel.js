@@ -3,15 +3,12 @@ const mongoose = require('mongoose')
 const chatsSchema = new mongoose.Schema({
 	userEmail: {
 		type: String,
-		required: true,
+		require: true,
 	},
 	message: {
 		type: String,
-		required: true,
+		require: true,
 	},
-} , {
-    versionKey: false,
-    timestamps:true
 })
 const chatsModel = mongoose.model('messages', chatsSchema )
 

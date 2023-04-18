@@ -1,68 +1,24 @@
-const BdProductManager = require('../dao/mongoManager/BdProductManager')
-const BdSessionManager = require('../dao/mongoManager/BdSessionManager')
-const { isValidPassword, createHashValue } = require('../utils/encrypt')
+const BdProductManager = require("../dao/mongoManager/BdProductManager")
+const { COOKIE_USER } = require("../utils/constants")
 
 
-const sessionLogin = async (req, res) => {
-        
-    try {
-        const { email , password} = req.body
-        const user = await BdSessionManager.getsession(email)
-        if (!user){
-            return res.status(401).json({message: "Email o contraseña incorrcto, sino tiene usuario por favor registrese"})
-        } 
-        const isValidComparePsw = await isValidPassword(password , user.password);
-        if(!isValidComparePsw) {
-            return res.status(401).json({menssage: "Credenciales incorrectas"})
-        }
-    
-        if (email === "adminCoder@coder.com" && password === "adminCod3r123") { 
-            const products = await BdProductManager.getProduct();
-                res.render("viewProduct", {
-                    products: products,
-                    lastName: req.session?.users?.lastName || user.lastName.toUpperCase(),
-                    firstName: req.session?.user?.firstName || user.firstName.toUpperCase(),
-                    rol: "Administrador"
-                })
-        } else { const products = await BdProductManager.getProduct();
-            res.render("viewProduct", {
-                products: products,
-                lastName: req.session?.users?.lastName || user.lastName.toUpperCase(),
-                firstName: req.session?.user?.firstName || user.firstName.toUpperCase(),
-                rol: "Usuario"
-            })}
-    } catch (error) {
-        res.status(500).json({
-            message: "Error",
-            playload: error.message
-        })
-    } 
+const sessionLogin = async (req,res)=>{
+    res
+    .cookie(COOKIE_USER, req.user.token, { maxAge: 300000, httpOnly: true })
+    .send( req.user )
 }
 
-const register = async (req, res) =>{
-    res.send ({
-        statuss: 'Success',
-        message:'Usuario Registrado',
-    })
-}
-
-const failregister = async (req , res) => {
-    res.send({
-        error:'Failed Register',
-    })
-}
-
-const logout = async (req, res) => {
-    req.session.destroy((err) => {
-        if (!err) return res.redirect("/login");
-        return res.send({ message: `logout Error`, body: err });
-    });
-}; 
+const loginRegister = async (req,res)=>{
+    res.send(req.user) 
+}  
+const getCurrent = async (req,res)=>{
+    res.send(req.user) 
+}  
 
 const github = async(req, res) =>{
     try {
         const products = await BdProductManager.getProduct();
-        req.user.rol = "Usuario"
+        req.user.rol = "USER"
         res.render("viewProduct", {
             products: products,
             firstName: req.user.firstName,
@@ -72,10 +28,10 @@ const github = async(req, res) =>{
         console.log(error)
     }
 }
-module.exports = {
-    sessionLogin , 
-    register , 
-    logout ,
-    github , 
-    failregister,
+
+module.exports={
+    sessionLogin,
+    loginRegister,
+    getCurrent,
+    github
 }

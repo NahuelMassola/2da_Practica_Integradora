@@ -1,16 +1,18 @@
-const userModel = require('../models/user.model');
+const userModel = require ('../models/user.model')
 
-class BdSessionManager {
-    
-    getsession = async (email , password) =>{
-        return await userModel.findOne({email  });
-    }
+class BdsessionManager {
+  getSession = async (email, password) => {
+    return await userModel.findOne({email, password});
+  }
 
-    createSession = async (user ) => {
-        const { firstName , lastName , email , password , rol} = user
-        return await userModel.create({firstName ,lastName ,email , password ,rol})
-    }
+  getEmail = async (email) => {
+    return await userModel.findOne(email);
+  }
+  
+  createUser = async (user)=>{
+      const { firstName,lastName, email, age, password,rol} = user
+      return await userModel.create({firstName , lastName, email, age, password, rol })
+  }
 }
 
-
-module.exports = new BdSessionManager
+module.exports = new BdsessionManager

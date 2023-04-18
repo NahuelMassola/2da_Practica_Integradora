@@ -28,17 +28,17 @@ const readFile = async (path) => {
       await writeFile(this.path, Carts);
       return id; 
     };
-     
+    
     getCatrs = async (id)=>{
       const carts = await readFile(this.path);
         if (carts[id]) {
             return carts[id];
         } 
         else {
-           return ({ msg: "Carrito No encontrado"} );
+          return ({ msg: "Carrito No encontrado"} );
         }
       };
-       
+
     addProductCart = async (cid, pid) => {
       const carts = await readFile(this.path);
       if (carts[cid]) {
@@ -56,7 +56,7 @@ const readFile = async (path) => {
         return ({ msg: "Carrito No encontrado"} );
       }
     }
- 
+
 }  
 
 module.exports = CardsManager;

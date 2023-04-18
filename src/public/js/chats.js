@@ -3,11 +3,12 @@ const socket = io()
 const listChatsElement = document.getElementById('list-chats')
 listChatsElement.innerHTML ="" 
 socket.on('init-chats', ( chats ) => {
-   chats.forEach((chat) => {
-   listChatsElement.innerHTML += `
-	 	  <li id=${chat._id} >${chat.userEmail} - ${chat.message}</li></br>
-	 	`
-	})
+     console.log(chats)
+     chats.forEach((chat) => {
+     listChatsElement.innerHTML += `
+	 	 <li id=${chat._id} >${chat.userEmail} - ${chat.message}</li></br>
+	 	 `
+	 })
 })
 
 socket.on('add-message', (newMessage) => {
@@ -15,7 +16,8 @@ socket.on('add-message', (newMessage) => {
 })
 
 socket.on('delete-message'), (message)=>{
-   /* console.log (message)
-   const message = document.getElementById(`${message._id}`)
-   message.remove();   */
-}
+    //console.log (message)
+    //const message = document.getElementById(`${message._id}`)
+   // message.remove(); 
+ 
+ }
